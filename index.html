@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Lightning-ControlNet: Integrating Lightning Control into Text-to-Image Diffusion Models">
+  <meta name="keywords" content="Diffusion Models; Lightning Control; Time-Division-Control; Cross-Attention Elimination;">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lightning-ControlNet: Integrating Lightning Control into Text-to-Image Diffusion Models</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5ZVQZ7NHC"></script> -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js_slide/fontawesome.all.min.js"></script>
+  <script src="./static/js_slide/bulma-carousel.min.js"></script>
+  <script src="./static/js_slide/bulma-slider.min.js"></script>
+  <script src="./static/js_slide/index.js"></script>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <!-- Vendor Stylesheets -->
+  <!--=================js==========================-->
+  <link rel="stylesheet" href="./static/css/tab_gallery.css">
+  <link rel="stylesheet" href="./static/css/juxtapose.css">
+  <link rel="stylesheet" href="./static/css/image_card_fader.css">
+  <link rel="stylesheet" href="./static/css/image_card_slider.css">
+</head>
+<body>
+
+
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title"><span style="color:#5e5ed2; font-weight: bold; font-style: italic"><strong>Lightning-ControlNet</strong></span> :Integrating Lightning Control into Text-to-Image Diffusion Models</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              Mengyuan Zhang<sup></sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=StWrqHIAAAAJ&hl=en">Gang Li</a><sup></sup>,
+            </span>
+            <span class="author-block">
+              Tingting Chai<sup></sup>,
+            </span>
+            <span class="author-block">
+              Yuanrong Xu<sup></sup>,
+            </span>
+            <span class="author-block">
+              Xin Sun<sup></sup>,
+            </span>
+            <span class="author-block">
+              Zhengqian Zhang<sup></sup>,
+            </span>
+            <span class="author-block">
+              Guanglu Zhou<sup></sup>,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">The Faculty of Computing, Harbin Institute of Technology<br />
+              Institute of Software, Chinese Academy of Sciences
+              <br /> 
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <!-- <span class="link-block">
+                <a href="https://arxiv.org/pdf/2402.18331.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2402.18331"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span> -->
+
+              <!-- Code Link. -->
+              <!-- <span class="link-block">
+                <a href="https://github.com/FineDiffusion/FineDiffusion"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>   -->
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" >
+  <div class="container" style="margin-top:-50px;margin-bottom:-50px;">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+          <div style="text-align: center; vertical-align:middle">
+            <img src="./finediffusion_img/main.png" width="1000">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--=================Abstract==========================-->
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Text-to-image (T2I) diffusion models have attracted considerable attention due to their ability to generate diverse and highly realistic images. However, achieving finer-grained control, such as depth-to-image and semantic-to-image generation, remains a significant challenge. While advanced methods like ControlNet and Uni-ControlNet have shown promise in addressing this challenge, we argue that, since the pre-trained model already integrates text prompts, it is unnecessary for the control branch to further incorporate text prompts through cross-attention layers. In this paper, we propose a more lightweight yet effective control branch named Lightning-ControlNet, which eliminates the cross-attention layers in ControlNet and efficiently incorporates spatial features from the condition images through Spatial Normalization. Lightning-ControlNet requires only one-time training by adopting a unified process to handle multimodal condition images, differing from the majority of earlier approaches that necessitate distinct control branch training for each type of conditioning image. Moreover, we propose Time-Division-Control (TDC) to balance controllability and generation quality. TDC relies on the control branch for fine-grained spatial control in the initial steps of the entire multi-step sampling process, while in the later steps, it solely depends on the pre-trained model to optimize the details of generated images. Both TDC and pre-trained Lightning-ControlNet can serve as plug-and-play components to act on other related methods. Extensive experiments demonstrate our method is either superior to or on par with state-of-the-art (SOTA) methods, despite a significant reduction in parameter count.
+        </div>
+      </div>
+    </div>
+</section>
+    <!--/ Abstract. -->
+
+    <!-- style="margin-top:-120px;" -->
+<!--/ Framework. -->
+<section class="section" style="margin-top:-100px;">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+        <div class="section-title has-text-centered" >
+          <h2 class="title is-3 is-centered">Lightning-ControlNet Framework</h2>
+        </div>
+        <div class="columns is-centered has-text-centered">
+          <div class="column">
+            <div class="publication-img">
+              <img id="architecture" src="./finediffusion_img/framework.png" style="width:1000px; margin-top:20px;margin-bottom:10px;"/>
+            </div>
+          </div>
+        </div>
+        <p>
+          We first conduct ablation experiments to verify approaches like ControlNet, where the control branch still receives text prompts despite the pre-trained model already receiving them, are unnecessary. Upon this discovery, we eliminates the cross-attention layers in ControlNet and devised a SpatialResBlock to construct Lightning-ControlNet. It can be visually observed that Lightning-ControlNet has a more streamlined and lightweight structure.
+        </p>
+
+        <div class="columns is-centered has-text-centered">
+          <div class="column">
+            <div class="publication-img">
+              <img id="architecture" src="./finediffusion_img/backbone.png" style="width:600px; margin-top:20px;margin-bottom:10px;"/>
+            </div>
+          </div>
+        </div>
+        <p style="margin-top:-20px;">
+          Due to our meticulous structural design and uniformization of different type of conditioning images, Lightning-ControlNet has significant advantages over previous methods in terms of parameters and fine-tuning costs.
+        </p>
+        <div class="columns is-centered has-text-centered">
+          <div class="column">
+            <div class="publication-img">
+              <img id="architecture" src="./finediffusion_img/param.png" style="width:600px; margin-top:20px;margin-bottom:0px;"/>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background-color: #E1E1E2;">
+  <div class="container">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-three-fifths">
+        <h2 class="title is-3" style="margin-bottom:50px;">Compare with Previous Methods</h2>
+        <h2 class="subtitle has-text-centered">It can be
+          seen that under the guidance of various types of conditioning images, the generated results of Lightning-ControlNet are mostly
+          superior to those of previous methods. </h2>
+        <!-- Supp Long Figures -->
+        <div id="results-carousel-face" class="carousel results-carousel">
+          <div class="item">
+            <div class="carousel-content">
+              <img src="./finediffusion_img/com1.png"
+                      alt="compare_1"/>
+            </div>
+          </div>
+          <div class="item">
+            <div class="carousel-content">
+              <img src="./finediffusion_img/com2.png"
+                      alt="compare_2"/>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+</section>
+
+<section class="section">
+  <div class="container" style="margin-top:0px">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3" style="margin-bottom:50px;">The effectiveness of Time-Division-Control</h2>
+        <h2 class="subtitle has-text-centered">Adjusting the value of 𝜆 appropriately can enhance the
+          details of the generated results while ensuring the results
+          are in line with the expected semantic layout.</h2>
+        <div class="columns is-centered has-text-centered">
+          <div class="column">
+            <div class="publication-img">
+              <img id="architecture" src="./finediffusion_img/tdc.png" style="width:600px; margin-top:20px;margin-bottom:0px;"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+</section>
+
+<section class="section" style="background-color: #E1E1E2;">
+  <div class="container"  style="margin-top:30px;">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-three-fifths">
+        <h2 class="title is-3" style="margin-bottom:50px;">Applying Pre-trained Lightning-ControlNet to Other Community Models</h2>
+
+        <h2 class="subtitle has-text-centered">Pre-trained Lightning-ControlNet for Stable Diffusion v1.5 can provide
+          fine-grained controllability for other community models
+          without the need for retraining.</h2>
+        <!-- Supp Long Figures -->
+        <div id="results-carousel-face" class="carousel results-carousel">
+          <div class="item">
+            <div class="carousel-content">
+              <img src="./finediffusion_img/SD14.png"
+                      alt="compare_1"/>
+            </div>
+          </div>
+          <div class="item">
+            <div class="carousel-content">
+              <img src="./finediffusion_img/comic.png"
+                      alt="compare_2"/>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+</section>
+
+<section class="section">
+  <div class="container" style="margin-top:0px">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3" style="margin-bottom:50px;">Applying TDC to Other Methods</h2>
+        <h2 class="subtitle has-text-centered">TDC can seamlessly integrate with
+          other methods of the same type to enhance the quality
+          of their generated results at no additional cost.</h2>
+        <div class="columns is-centered has-text-centered">
+          <div class="column">
+            <div class="publication-img">
+              <img id="architecture" src="./finediffusion_img/tdc_apply.png" style="width:600px; margin-top:20px;margin-bottom:0px;"/>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>  
+</section>
+
+<section class="section" style="background-color: #E1E1E2;">
+  <div class="container"  style="margin-top:30px;">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3" style="margin-bottom:50px;">Robustness of Different Type of Conditioning Images</h2>
+        <h2 class="subtitle has-text-centered" style="margin-bottom:10px;">For the same text prompts, Lightning-ControlNet
+          can produce satisfactory results guided by various types of
+          conditioning images from the same original image, demonstrating its robustness.</h2>
+        <div class="columns is-centered has-text-centered">
+          <div class="column">
+            <div class="publication-img">
+              <img id="architecture" src="./finediffusion_img/roubst.png" style="width:600px; margin-top:20px;margin-bottom:0px;"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+  
+<section class="section">
+  <div class="container" style="margin-top:0px">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3" style="margin-bottom:50px;">Generated Results Guided by Hand-drawn Sketches</h2>
+        <h2 class="subtitle has-text-centered">Lightning-ControlNet can generate pretty
+          results guided by real hand-drawn sketches.</h2>
+        <div class="columns is-centered has-text-centered">
+          <div class="column">
+            <div class="publication-img">
+              <img id="architecture" src="./finediffusion_img/hand.png" style="width:800px; margin-top:20px;margin-bottom:0px;"/>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>  
+</section>
+
+<section class="section"  style="background-color: #E1E1E2; padding-top: 20px;">
+  <div class="container"  style="margin-top:10px;">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-three-fifths">
+        <h2 class="title is-3" style="">More Generated Results</h2>
+        <div id="results-carousel-face" class="carousel results-carousel">
+          <div class="item">
+            <div class="carousel-content">
+              <img src="./finediffusion_img/r1.png"
+                      alt="compare_1"/>
+            </div>
+          </div>
+          <div class="item">
+            <div class="carousel-content">
+              <img src="./finediffusion_img/r2.png"
+                      alt="compare_2"/>
+            </div>
+          </div>
+          <div class="item">
+            <div class="carousel-content">
+              <img src="./finediffusion_img/r3.png"
+                      alt="compare_2"/>
+            </div>
+          </div>
+          <div class="item">
+            <div class="carousel-content">
+              <img src="./finediffusion_img/r4.png"
+                      alt="compare_2"/>
+            </div>
+          </div>
+        </div>
+        
+        </div>
+      </div>
+    </div>
+  </div>  
+</section>
+
+<section class="section">
+  <div class="container" style="margin-top:0px">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3" style="margin-bottom:50px;">Structure Details</h2>
+        <h2 class="subtitle has-text-centered">The Feature Extractor captures features at vari-
+          ous resolutions from conditioning images and channels them into
+          SpatialResBlocks A to E correspondingly. SpatialResBlock E aligns
+          with the Middle Block of the frozen U-Net, where its output features are directly integrated with the frozen Encoder’s output and
+          passed as input to the Middle Block. On the other hand, SpatialResBlocks A through D correspond to the first block of each stage of
+          the frozen Decoder. Their output features are concatenated with
+          skip connections to be utilized in the denoising process.</h2>
+        <div class="columns is-centered has-text-centered">
+          <div class="column">
+            <div class="publication-img">
+              <img id="architecture" src="./finediffusion_img/details.png" style="width:800px; margin-top:20px;margin-bottom:0px;"/>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>  
+</section>
+    
+
+<!-- <section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{pan2024finediffusion,
+  title={FineDiffusion: Scaling up Diffusion Models for Fine-grained Image Generation with 10,000 Classes},
+  author={Pan, Ziying and Wang, Kun and Li, Gang and He, Feihong and Li, Xiwang and Lai, Yongxuan},
+  journal={arXiv preprint arXiv:2402.18331},
+  year={2024}
+}
+</code></pre>
+  </div>
+</section> -->
+
+
+
+</body>
+</html>
+
+
